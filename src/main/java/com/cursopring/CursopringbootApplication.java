@@ -9,12 +9,17 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.cursopring.dao.CategoriaDAO;
 import com.cursopring.dao.CidadeDAO;
+import com.cursopring.dao.ClienteDAO;
+import com.cursopring.dao.EnderecoDAO;
 import com.cursopring.dao.EstadoDAO;
 import com.cursopring.dao.ProdutoDAO;
 import com.cursopring.domain.Categoria;
 import com.cursopring.domain.Cidade;
+import com.cursopring.domain.Cliente;
+import com.cursopring.domain.Endereco;
 import com.cursopring.domain.Estado;
 import com.cursopring.domain.Produto;
+import com.cursopring.domain.enums.TipoCliente;
 
 @SpringBootApplication
 public class CursopringbootApplication implements CommandLineRunner{
@@ -27,6 +32,12 @@ public class CursopringbootApplication implements CommandLineRunner{
 	
 	@Autowired
 	private CidadeDAO cidadeDao;
+	
+	@Autowired
+	private ClienteDAO clienteDao;
+	
+	@Autowired
+	private EnderecoDAO enderecoDao;
 	
 	@Autowired EstadoDAO estadoDao;
 
@@ -69,6 +80,18 @@ public class CursopringbootApplication implements CommandLineRunner{
 		
 		estadoDao.saveAll(Arrays.asList(est1, est2));
 		cidadeDao.saveAll(Arrays.asList(c1, c2, c3));
+		
+		Cliente cli1 = new Cliente(null, "Maria Silva", "maria@gmail.com", "36378912377", TipoCliente.PESSOAFISICA);
+		cli1.getTelefones().addAll(Arrays.asList("2763323", "9383893"));
+		
+		Endereco e1 = new Endereco(null, "Rua Flores", "300", "Apto 203", "Jardim", "38220834", cli1, c1);
+		Endereco e2 = new Endereco(null, "Avenida MAtos", "105", "Sala 800", "Centro", "38777012", cli1, c2);
+		
+		cli1.getEnderecos().addAll(Arrays.asList(e1, e2));
+		
+		clienteDao.saveAll(Arrays.asList(cli1));
+		enderecoDao.saveAll(Arrays.asList(e1, e2));
+		
 		
 		
 		

@@ -8,8 +8,12 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.cursopring.dao.CategoriaDAO;
+import com.cursopring.dao.CidadeDAO;
+import com.cursopring.dao.EstadoDAO;
 import com.cursopring.dao.ProdutoDAO;
 import com.cursopring.domain.Categoria;
+import com.cursopring.domain.Cidade;
+import com.cursopring.domain.Estado;
 import com.cursopring.domain.Produto;
 
 @SpringBootApplication
@@ -20,6 +24,12 @@ public class CursopringbootApplication implements CommandLineRunner{
 	
 	@Autowired
 	private ProdutoDAO produtoDao;
+	
+	@Autowired
+	private CidadeDAO cidadeDao;
+	
+	@Autowired EstadoDAO estadoDao;
+
 	
 	public static void main(String[] args) {
 		SpringApplication.run(CursopringbootApplication.class, args);
@@ -45,6 +55,20 @@ public class CursopringbootApplication implements CommandLineRunner{
 		
 		categoriaDao.saveAll(Arrays.asList(cat1, cat2));
 		produtoDao.saveAll(Arrays.asList(p1, p2, p3));
+		
+		Estado est1 = new Estado(null, "Minas Gerais");
+		Estado est2 = new Estado(null, "São Paulo");
+		
+		Cidade c1 = new Cidade(null, "Uberlâncida", est1);
+		Cidade c2 = new Cidade(null, "São Paulo", est2);
+		Cidade c3 = new Cidade(null, "Campinas", est2);
+		
+		est1.getCidades().addAll(Arrays.asList(c1));
+		est2.getCidades().addAll(Arrays.asList(c2, c3));
+		
+		
+		estadoDao.saveAll(Arrays.asList(est1, est2));
+		cidadeDao.saveAll(Arrays.asList(c1, c2, c3));
 		
 		
 		
